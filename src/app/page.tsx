@@ -2,7 +2,7 @@
 import Image from "next/image";
 import FireIcon from '../src/images/fire.svg';
 import Button from './components/Button';
-import Message from './Components/Message';
+import Message from './components/Message';
 import YesNoButton from "./components/YesNoButton";
 import StreakDisplay from "./components/StreakDisplay";
 
