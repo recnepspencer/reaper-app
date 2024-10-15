@@ -1,4 +1,5 @@
 "use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import FireIcon from "../src/images/fire.svg";
 import Button from "./components/Button";
@@ -12,8 +13,18 @@ import Card from "./components/card/Card";
 import { TextField } from "@mui/material";
 import TextInput from "./components/input/TextInput";
 import { useState } from "react";
+import Modal from "./components/Modal";
 
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClose = () => {
+    setIsOpen(false);
+  }
+
+  const handleOpen = () => {
+    setIsOpen(true);
+  }
   const handleTimerSubmit = (duration: { hours: number; minutes: number }) => {
     console.log("Submitted duration:", duration);
   };
@@ -88,6 +99,19 @@ export default function Home() {
         <StreakDisplay bottomText="Yes" type="YesNo" />
 
         <StreakDisplay timeSpentInHours={32} type="Timer" />
+      <div>
+            {/* Button to open the modal */}
+            <button onClick={() => setIsOpen(true)} className="btn-primary">
+                Open Modal
+            </button>
+
+            {/* Conditional rendering of the modal */}
+            {isOpen && (
+                <Modal title="New Goal" variant="secondary" onClose={handleClose}>
+                    <Button variant="primary">Submit </Button>
+                </Modal>
+            )}
+        </div>
       </div>
     </>
   );
