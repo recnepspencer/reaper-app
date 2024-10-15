@@ -4,21 +4,13 @@ import Button from "../Button"; // Assuming Button component is in the same dire
 
 interface TimerProps {
   onSubmit: (duration: { hours: number; minutes: number }) => void;
-  onCancel: () => void;
 }
 
-const Timer: React.FC<TimerProps> = ({ onSubmit, onCancel }) => {
+const Timer: React.FC<TimerProps> = ({ onSubmit }) => {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleHoursChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setHours(Number(event.target.value));
-  };
-
-  const handleMinutesChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setMinutes(Number(event.target.value));
-  };
 
   const handleSubmit = () => {
     onSubmit({ hours, minutes });
@@ -26,7 +18,6 @@ const Timer: React.FC<TimerProps> = ({ onSubmit, onCancel }) => {
   };
 
   const handleCancel = () => {
-    onCancel();
     setIsEditing(false);
   };
 

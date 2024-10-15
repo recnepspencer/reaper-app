@@ -10,7 +10,7 @@ import YesNoButton from './YesNoButton';
 interface CardProps {
   title: string;
   text: string;
-  type: 'streak' | 'timer' | 'counter';
+  type: 'YesNo' | 'Timer' | 'Counter';
   streakValue?: string; // For streak type to show the number of days (e.g., '7 Days')
   onSubmitTimer?: (duration: { hours: number; minutes: number }) => void; // Timer submit handler
   onCancelTimer?: () => void; // Timer cancel handler
@@ -29,12 +29,12 @@ const Card: React.FC<CardProps> = ({
   // Determine the text based on the type of card
   const getPrompt = (cardType: string) => {
     switch (cardType) {
-      case 'streak':
-        return 'Did you complete your goal today?';
-      case 'timer':
-        return 'How long did you spend on your goal today?';
-      case 'counter':
+      case 'Counter':
         return 'Count progress for your goal today.';
+      case 'Timer':
+        return 'How long did you spend on your goal today?';
+      case 'YesNo':
+        return 'Did you complete your goal today?';
       default:
         return '';
     }
@@ -57,32 +57,32 @@ const Card: React.FC<CardProps> = ({
       <p className="text-white text-card-text mb-4">{getPrompt(type)}</p>
 
       {/* Type-specific content */}
-      {type === 'streak' && (
+      {type === 'YesNo' && (
         <>
           {/* Yes/No Button for streak */}
           <YesNoButton />
           {/* Streak Display centered below the YesNoButton */}
           <div className="flex justify-center mt-2">
-            <StreakDisplay type="Counter" bottomText={streakValue || '0 Days'} />
+            <StreakDisplay type="YesNo" bottomText="5 Times" />
           </div>
         </>
       )}
 
-      {type === 'timer' && (
+      {type === 'Timer' && (
         <>
           {/* Timer Component */}
-          <Timer onSubmit={onSubmitTimer!} onCancel={onCancelTimer!} />
+          <Timer onSubmit={onSubmitTimer!} />
           <div className="flex justify-center mt-2">
             <StreakDisplay type="Timer" bottomText={streakValue || '0 Days'} />
           </div>
         </>
       )}
 
-      {type === 'counter' && (
+      {type === 'Counter' && (
         <>
           {/* Counter Component */}
           <Counter />
-           <div className="flex justify-center mt-2">
+          <div className="flex justify-center mt-2">
             <StreakDisplay type="Counter" bottomText={streakValue || '0 Days'} />
           </div>
         </>

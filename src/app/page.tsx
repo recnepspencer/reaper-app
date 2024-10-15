@@ -9,14 +9,22 @@ import DetailsButton from "./components/card/DetailsButton";
 import Counter from "./components/card/Counter";
 import Timer from "./components/card/Timer";
 import Card from "./components/card/Card";
+import { TextField } from "@mui/material";
+import TextInput from "./components/input/TextInput";
+import { useState } from "react";
 
 export default function Home() {
   const handleTimerSubmit = (duration: { hours: number; minutes: number }) => {
     console.log("Submitted duration:", duration);
   };
 
+  const [name, setName] = useState('');
   const handleTimerCancel = () => {
     console.log("Canceled");
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
   };
 
   return (
@@ -41,24 +49,35 @@ export default function Home() {
       <div className="flex flex-col justify-center items-center w-full">
         <DetailsButton />
         <Counter />
-        <Timer onSubmit={handleTimerSubmit} onCancel={handleTimerCancel} />
+        <Timer onSubmit={handleTimerSubmit} />
         <div className="grid grid-cols-2 gap-4 m-4">
+        <div className="p-4">
+      <h1 className="text-white">Fill out your information</h1>
+      <TextInput
+        label="Name"
+        value={name}
+        onChange={handleChange}
+      />
+            <div className="text-white mt-4">
+        <strong>Current Value:</strong> {name}
+      </div>
+    </div>
         <Card
           title="Streak Card"
           text="Card Text"
-          type="streak"
+          type="YesNo"
           streakValue="7 Days"
         />
                 <Card
           title="Streak Card"
           text="Card Text"
-          type="counter"
+          type="Counter"
           streakValue="7 Days"
         />
                         <Card
           title="Streak Card"
           text="Card Text"
-          type="timer"
+          type="Timer"
           streakValue="7 Days"
         />
         </div>
