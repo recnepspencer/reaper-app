@@ -1,7 +1,7 @@
 // Components/Message.tsx
-
+'use client';
 import React from 'react';
-import classNames from 'classnames';
+import classnames from 'classnames';
 
 export interface MessageProps {
     children: React.ReactNode;
@@ -9,7 +9,7 @@ export interface MessageProps {
 }
 
 const Message: React.FC<MessageProps> = ({ children, variant = 'primary' }) => {
-    const messageClass = classNames(
+    const messageClass = classnames(
         'px-2 py-2 font-bold text-button transition-colors duration-200',
         {
             // Primary button styles
