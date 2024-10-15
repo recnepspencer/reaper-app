@@ -12,7 +12,6 @@ import Timer from "./components/card/Timer";
 import Card from "./components/card/Card";
 import { TextField } from "@mui/material";
 import TextInput from "./components/input/TextInput";
-import { useState } from "react";
 import Modal from "./components/Modal";
 
 export default function Home() {
