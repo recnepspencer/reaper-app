@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  name      String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  goals     UserGoal[] // This sets up the relation to the UserGoal join table
+}
+
+model Goal {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  users       UserGoal[] // This sets up the relation to the UserGoal join table
+}
+
+model UserGoal {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  goalId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Goal      Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, goalId]) // Ensure that each User can only be related to each Goal once
+}
