@@ -1,16 +1,19 @@
 import React from "react";
 import TextInput from "./TextInput";
+import Button from "../Button";
 
 export interface FormProps {
     children: React.ReactNode; 
     onSubmit: () => void;
-    variant?: "primary" | "secondary";    
+    variant?:"primary" | "secondary" | "danger" | undefined;  
 }
-const Form: React.FC = (children, onSubmit, variant = "primary") => {
+const Form: React.FC = (children:any, onSubmit, variant:FormProps["variant"] = "primary") => {
     return (
         <div>
-            <TextInput label="First Name" value="" onChange={() => {}} />
-            <TextInput label="Last Name" value="" onChange={() => {}} />
+            {children}
+            <Button onClick={onSubmit} variant={variant}>Submit</Button>
         </div>
     );
 }
+
+export default Form;
