@@ -1,7 +1,7 @@
 // app/users/page.tsx
 
-import { getAllUsers } from '../../lib/services/userService';
-import { User } from '../../lib/interfaces/user.interface';
+import { getAllUsers } from "@/lib/services/userService";
+import { User } from '@/lib/interfaces/user.interface';
 
 // Define the page component as an async function
 export default async function UsersPage() {
