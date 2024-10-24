@@ -1,5 +1,4 @@
 // app/users/page.tsx
-
 import { getAllUsers } from "@/lib/services/userService";
 import { User } from '@/lib/interfaces/user.interface';
 
