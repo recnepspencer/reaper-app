@@ -1,4 +1,4 @@
-import prisma from '../prisma';
+import prisma from '../db/prisma';
 import { User } from '../interfaces/user.interface';
 
 export async function getAllUsers(): Promise<User[]> {
