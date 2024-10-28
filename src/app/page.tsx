@@ -39,8 +39,8 @@ export default function Home() {
 
   return (
     <>
-      <div>
-        <Button
+      <div className="flex">
+        {/* <Button
           variant="primary"
           onClick={() => console.log("Primary clicked")}
         >
@@ -51,27 +51,19 @@ export default function Home() {
           onClick={() => console.log("Secondary clicked")}
         >
           Secondary Button
-        </Button>
-      </div>
-      <div className="flex justify-center items-center h-screen bg-dark-gray">
-        <YesNoButton />
+        </Button> */}
+        <img src="/images/logo.svg" alt="logo" className="w-12 h-12 rounded-full object-cover inline-flex"/>
+        <Message variant="secondary">
+          <div className="flex items-center space-x-4">
+            <span>Nice words for myself</span>
+            <img src="/images/login.jpg" alt="login-photo" className="w-12 h-12 rounded-full object-cover" />
+          </div>
+        </Message>
+
       </div>
       <div className="flex flex-col justify-center items-center w-full">
-        <DetailsButton />
-        <Counter />
-        <Timer onSubmit={handleTimerSubmit} />
         <div className="grid grid-cols-2 gap-4 m-4">
-        <div className="p-4">
-      <h1 className="text-white">Fill out your information</h1>
-      <TextInput
-        label="Name"
-        value={name}
-        onChange={handleChange}
-      />
-            <div className="text-white mt-4">
-        <strong>Current Value:</strong> {name}
-      </div>
-    </div>
+        
         <Card
           title="Streak Card"
           text="Card Text"
