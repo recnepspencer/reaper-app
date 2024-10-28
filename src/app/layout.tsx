@@ -9,7 +9,7 @@ import {
   UserButton
 } from '@clerk/nextjs'
 import React from "react";
-import Navbar from "./Components/Navbar";
+import Navbar from "./components/Navbar";
 
 
 const geistSans = localFont({
