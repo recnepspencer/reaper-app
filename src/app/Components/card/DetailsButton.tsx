@@ -2,8 +2,14 @@
 import React, { useState } from 'react';
 import Button from '../Button'; // Assuming Button component is in the same directory
 import Image from 'next/image'; // Assuming you are using Next.js for image optimization
+import { on } from 'events';
 
-const DetailsButton: React.FC = () => {
+interface DetailsButtonProps {
+  onOpenModal: () => void;
+  // onDelete: () => void;
+}
+
+const DetailsButton: React.FC<DetailsButtonProps> = (onOpenModal) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -28,7 +34,7 @@ const DetailsButton: React.FC = () => {
           <div className="py-1">
             {/* Edit Button */}
             <Button
-              onClick={() => console.log('Edit clicked')}
+              onClick={() => onOpenModal}
               variant="secondary"
               className="w-full text-left px-4 py-2"
             >
@@ -36,7 +42,7 @@ const DetailsButton: React.FC = () => {
             </Button>
             {/* Delete Button */}
             <Button
-              onClick={() => console.log('Delete clicked')}
+              onClick={() => console.log('Delete')}
               variant="danger"
               className="w-full text-left px-4 py-2"
             >

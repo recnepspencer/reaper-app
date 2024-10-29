@@ -9,7 +9,7 @@ const Navbar: React.FC = () => {
     <nav className="fixed bottom-0 left-0 w-full bg-dark-gray p-4">
       <div className="flex justify-between items-center max-w-md mx-auto"> 
 
-        <Link href="/user">
+        <Link href="/profile">
           <Image src="/images/user.svg" alt="User Icon" width={30} height={30} />
         </Link>
 
