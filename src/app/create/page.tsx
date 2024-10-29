@@ -62,7 +62,7 @@ export default function Create() {
         </Message>
 
         <Form>
-            <TextInput
+        <TextInput
               label="Goal Name"
               onChange={handleChange}
               value={name}
