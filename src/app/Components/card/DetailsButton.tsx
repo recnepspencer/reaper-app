@@ -1,9 +1,13 @@
 'use client';
 import React, { useState } from 'react';
-import Button from '../Button'; // Assuming Button component is in the same directory
-import Image from 'next/image'; // Assuming you are using Next.js for image optimization
+import Button from '../Button'; 
+import Image from 'next/image';
 
-const DetailsButton: React.FC = () => {
+interface DetailsButtonProps {
+  onOpenModal: () => void;
+}
+
+const DetailsButton: React.FC<DetailsButtonProps> = ({ onOpenModal }) => { 
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -15,7 +19,7 @@ const DetailsButton: React.FC = () => {
       {/* Details Icon Button */}
       <button onClick={toggleDropdown} className="p-2 rounded-lg hover:bg-gray-200 focus:outline-none">
         <Image
-          src="/images/details-button.svg" // Assuming the SVG is in the public/images folder
+          src="/images/details-button.svg"
           alt="Details"
           width={16}
           height={16}
@@ -28,7 +32,7 @@ const DetailsButton: React.FC = () => {
           <div className="py-1">
             {/* Edit Button */}
             <Button
-              onClick={() => console.log('Edit clicked')}
+              onClick={onOpenModal} 
               variant="secondary"
               className="w-full text-left px-4 py-2"
             >
@@ -36,7 +40,7 @@ const DetailsButton: React.FC = () => {
             </Button>
             {/* Delete Button */}
             <Button
-              onClick={() => console.log('Delete clicked')}
+              onClick={() => console.log('Delete')}
               variant="danger"
               className="w-full text-left px-4 py-2"
             >
