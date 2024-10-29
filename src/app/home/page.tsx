@@ -61,7 +61,7 @@ export default function Home() {
             text="Card Text"
             type="YesNo"
             streakValue="7 Days"
-            onOpenModal={() => handleOpen("YesNo Goal")}
+            onOpenModal={() => handleOpen("Yes/No Goal")}
           />
           <Card
             title="Counter Card"
