@@ -41,8 +41,17 @@ export default function Home() {
     console.log("Canceled");
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Submitted name:", name);
+  };
+
+  const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (field === "title") {
+      setModalTitle(e.target.value);
+    } else if (field === "text") {
+      setModalText(e.target.value);
+    }
   };
 
   return (
@@ -86,9 +95,8 @@ export default function Home() {
       {/* Display modal if isOpen is true */}
       {isOpen && (
         <Modal title={modalTitle} text={modalText} variant="secondary" onClose={handleClose}>
-          <TextInput label={modalTitle} value={modalTitle} onChange={handleChange} />
-          <TextInput label={modalText} value={modalText} onChange={handleChange} />
-          <TextInput label="Name" value={name} onChange={handleChange} />
+          <TextInput label={modalTitle} value={modalTitle} onChange={handleChange("title")} />
+          <TextInput label={modalText} value={modalText} onChange={handleChange("text")} />
           <Button variant="primary">Submit</Button>
         </Modal>
       )}
