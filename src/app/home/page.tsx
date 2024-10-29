@@ -13,20 +13,23 @@ import Card from "../components/card/Card";
 import { TextField } from "@mui/material";
 import TextInput from "../components/input/TextInput";
 import Modal from "../components/Modal";
+import { title } from "process";
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState(""); // State to control modal content
+  const [modalText, setModalText] = useState("");
 
-  const handleOpen = (title: string) => {
-    console.log("Open");
+  const handleOpen = (title: string, text:any) => {
     setModalTitle(title);
+    setModalText(text);
     setIsOpen(true);
   };
 
   const handleClose = () => {
     setIsOpen(false);
     setModalTitle("");
+    setModalText("");
   };
 
   const handleTimerSubmit = (duration: { hours: number; minutes: number }) => {
@@ -61,28 +64,31 @@ export default function Home() {
             text="Card Text"
             type="YesNo"
             streakValue="7 Days"
-            onOpenModal={() => handleOpen("Yes/No Goal")}
+            onOpenModal={handleOpen}
           />
           <Card
             title="Counter Card"
             text="Card Text"
             type="Counter"
             streakValue="7 Days"
-            onOpenModal={() => handleOpen("Counter Goal")}
+            onOpenModal={handleOpen}
           />
           <Card
             title="Timer Card"
             text="Card Text"
             type="Timer"
             streakValue="7 Days"
-            onOpenModal={() => handleOpen("Timer Goal")}
+            onOpenModal={handleOpen}
           />
         </div>
       </div>
 
       {/* Display modal if isOpen is true */}
       {isOpen && (
-        <Modal title={modalTitle} variant="secondary" onClose={handleClose}>
+        <Modal title={modalTitle} text={modalText} variant="secondary" onClose={handleClose}>
+          <TextInput label={modalTitle} value={modalTitle} onChange={handleChange} />
+          <TextInput label={modalText} value={modalText} onChange={handleChange} />
+          <TextInput label="Name" value={name} onChange={handleChange} />
           <Button variant="primary">Submit</Button>
         </Modal>
       )}
@@ -93,9 +99,9 @@ export default function Home() {
         <StreakDisplay timeSpentInHours={32} type="Timer" />
         
         {/* Button to open modal */}
-        <button onClick={() => handleOpen("New Goal")} className="btn-primary">
+        {/* <button onClick={() => handleOpen("New Goal")} className="btn-primary">
           Open Modal
-        </button>
+        </button> */}
       </div>
     </>
   );

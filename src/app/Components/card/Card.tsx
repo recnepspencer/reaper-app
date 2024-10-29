@@ -14,7 +14,7 @@ interface CardProps {
   streakValue?: string; // For streak type to show the number of days (e.g., '7 Days')
   onSubmitTimer?: (duration: { hours: number; minutes: number }) => void; // Timer submit handler
   onCancelTimer?: () => void; // Timer cancel handler
-  onOpenModal: () => void; // Modal open handler
+  onOpenModal: (title: string, text: any) => void; // Modal open handler
   // onDelete?: () => void;
   className?: string; // Allowing className to be passed for width and other styling from container
 }
@@ -51,7 +51,7 @@ const Card: React.FC<CardProps> = ({
         <DetailsButton
           onOpenModal={() => {
             console.log("Details Button Clicked in Card");
-            onOpenModal();
+            onOpenModal(title, text);
           }}
         />
       </div>

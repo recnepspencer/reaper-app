@@ -1,14 +1,16 @@
 import React from "react";
+import TextInput from "./input/TextInput";
 import classNames from "classnames";
 
 export type ModalProps = {
     children: React.ReactNode;
     title: string;
+    text: string; 
     variant?: "primary" | "secondary";
     onClose: () => void;
 };
 
-const Modal: React.FC<ModalProps> = ({ children, title, variant = "primary", onClose }) => {
+const Modal: React.FC<ModalProps> = ({ children, title, text, variant = "primary", onClose }) => {
     const modalClass = classNames("bg-black", {
         "bg-primary-button": variant === "primary",
         "bg-secondary-button": variant === "secondary",
@@ -25,7 +27,6 @@ const Modal: React.FC<ModalProps> = ({ children, title, variant = "primary", onC
                 <button onClick={onClose} className="absolute top-2 right-2">
                     X
                 </button>
-                <h2 className="text-xl font-bold mb-4">{title}</h2>
                 {children}
             </div>
         </div>
