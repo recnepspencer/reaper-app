@@ -1,31 +1,27 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 
-const YesNoButton: React.FC = () => {
-  const [active, setActive] = useState<'yes' | 'no' | null>(null);
+interface YesNoButtonProps {
+  onYesClick: () => void;
+  onNoClick: () => void;
+}
 
-  const baseButtonStyle =
-    'w-1/2 px-4 py-2 font-bold text-white-smoke transition duration-200 ease-in-out';
-  const activeButtonStyle = 'bg-white text-light-gray'; // White background, light gray text when active
-  const inactiveButtonStyle = 'bg-light-gray text-white-smoke'; // Default state for unselected buttons
-
+const YesNoButton: React.FC<YesNoButtonProps> = ({ onYesClick, onNoClick }) => {
   return (
     <div className="flex justify-center items-center bg-light-gray rounded-lg">
       {/* Yes Button */}
       <button
-        onMouseDown={() => setActive('yes')}
-        onMouseUp={() => setActive(null)}
-        className={`${baseButtonStyle} ${active === 'yes' ? activeButtonStyle : inactiveButtonStyle} rounded-l-lg border-r-2 border-lighter-gray`}  // Border added to the right side
+        onClick={onYesClick}
+        className="w-1/2 px-4 py-2 font-bold text-white-smoke transition duration-200 ease-in-out bg-light-gray hover:bg-gray-300 rounded-l-lg border-r-2 border-lighter-gray"
       >
         Yes
       </button>
 
       {/* No Button */}
       <button
-        onMouseDown={() => setActive('no')}
-        onMouseUp={() => setActive(null)}
-        className={`${baseButtonStyle} ${active === 'no' ? activeButtonStyle : inactiveButtonStyle} rounded-r-lg`}
+        onClick={onNoClick}
+        className="w-1/2 px-4 py-2 font-bold text-white-smoke transition duration-200 ease-in-out bg-light-gray hover:bg-gray-300 rounded-r-lg"
       >
         No
       </button>

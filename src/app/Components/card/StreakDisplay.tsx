@@ -50,7 +50,7 @@ const StreakDisplay: React.FC<StreakDisplayProps> = ({ type, bottomText = '', ti
       <div className="flex flex-col">
         {/* Top Text (always the same for each type) */}
         <span className="text-secondary-text text-mini-text">{topText}</span>
-
+  
         {/* Bottom Text or Timer Display */}
         {type === 'Timer' ? (
           <span className="text-primary-text text-h6 font-bold">{formatTime(timeSpentInHours)}</span>
@@ -58,13 +58,13 @@ const StreakDisplay: React.FC<StreakDisplayProps> = ({ type, bottomText = '', ti
           <span className="text-primary-text text-h6 font-bold">{bottomText}</span>
         )}
       </div>
-
+  
       {/* Icon */}
       <div className="text-rich-purple text-6xl">
         <Image src={iconSrc} alt={altText} width={32} height={32} />
       </div>
     </div>
-  );
+  );  
 };
 
 export default StreakDisplay;
