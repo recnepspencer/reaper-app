@@ -1,4 +1,4 @@
-// app/users/page.tsx
+'use client';
 import { getAllUsers } from "@/lib/services/userService";
 import { User } from '@/lib/interfaces/user.interface';
 
