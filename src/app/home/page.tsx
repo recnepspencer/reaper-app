@@ -14,6 +14,7 @@ import { TextField } from "@mui/material";
 import TextInput from "../components/input/TextInput";
 import Modal from "../components/Modal";
 import { title } from "process";
+import classNames from "classnames";
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,7 +58,7 @@ export default function Home() {
   return (
     <>
       <div className="flex">
-        <img src="/images/logo.svg" alt="logo" className="w-12 h-12 rounded-full object-cover inline-flex"/>
+        <img src="/images/logo.svg" alt="logo" className="w-24 h-24 rounded-full object-cover inline-flex"/>
         <Message variant="secondary">
           <div className="flex items-center space-x-4">
             <span>Nice words for myself</span>

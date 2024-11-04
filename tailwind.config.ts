@@ -50,7 +50,16 @@ const config: Config = {
         "placeholder-text": ["14px", "auto"], // 0.875rem -> 14px
         "mini-text": ["16px", "auto"], // 0.625rem -> 10px
       },
-    },
+      keyframes: {
+        fadeInScale: {
+          '0%': { opacity: '0', transform: 'scale(0.8)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+      },
+      animation: {
+        fadeInScale: 'fadeInScale 1s ease-out forwards',
+      },
+    }, 
   },
   plugins: [],
 };

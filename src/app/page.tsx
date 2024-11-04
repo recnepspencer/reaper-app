@@ -38,16 +38,19 @@ export default function Home() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
-return (
-  <div className="flex">
-        <img src="/images/logo.svg" alt="logo" className="w-12 h-12 rounded-full object-cover inline-flex"/>
-        <Message variant="secondary">
-          <div className="flex items-center space-x-4">
-            <span>Nice words for myself</span>
-            <img src="/images/login.jpg" alt="login-photo" className="w-12 h-12 rounded-full object-cover" />
-          </div>
-        </Message>
-      </div>
 
-);
+  return (
+    <>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h2 className="text-5xl font-bold mb-0 animate-fadeInScale">Welcome to Reaper Goals</h2>
+    </div>
+    <div className="flex items-center mt-0 justify-center h-screen">
+      <img 
+        src="/images/logo.svg" 
+        alt="logo" 
+        className="w-64 h-64 rounded-full object-cover inline-flex animate-fadeInScale" 
+      />
+    </div>
+  </>
+  );
 }

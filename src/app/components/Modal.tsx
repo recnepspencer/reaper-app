@@ -22,7 +22,7 @@ const Modal: React.FC<ModalProps> = ({ children, title, text, variant = "primary
             <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-md" onClick={onClose} />
 
             {/* Modal content */}
-            <div className={`relative w-1/3 p-4 rounded-lg ${modalClass}`}>
+            <div className={`relative w-1/3 p-8 rounded-lg ${modalClass} space-y-4`}>
                 {/* Close button inside the modal */}
                 <button onClick={onClose} className="absolute top-2 right-2">
                     X
