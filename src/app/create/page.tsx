@@ -61,13 +61,15 @@ export default function Create() {
           </div>
         </Message>
 
-        <Form>
+        {/* <Form>
         <TextInput
               label="Goal Name"
               onChange={handleChange}
               value={name}
             />
-        </Form>
+        </Form> */}
+
         </div>
-      );
+      });
+
 }

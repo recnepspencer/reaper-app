@@ -11,6 +11,13 @@ import Counter from "./components/card/Counter";
 import Timer from "./components/card/Timer";
 import Card from "./components/card/Card";
 import Modal from "./components/Modal";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,16 +48,24 @@ export default function Home() {
 
   return (
     <>
+        <div className="flex items-center justify-center h-screen">
+      <Image 
+        src="/images/logo.svg" 
+        alt="logo" 
+        width={200}
+        height={200}
+        className="animate-fadeInScale"
+      />
+    </div>
     <div className="flex flex-col items-center justify-center h-screen">
       <h2 className="text-5xl font-bold mb-0 animate-fadeInScale">Welcome to Reaper Goals</h2>
     </div>
-    <div className="flex items-center mt-0 justify-center h-screen">
-      <img 
-        src="/images/logo.svg" 
-        alt="logo" 
-        className="w-64 h-64 rounded-full object-cover inline-flex animate-fadeInScale" 
-      />
-    </div>
+    <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
   </>
   );
 }
