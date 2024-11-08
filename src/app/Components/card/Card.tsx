@@ -1,3 +1,5 @@
+// components/card/Card.tsx
+
 "use client";
 
 import React from "react";
@@ -10,13 +12,20 @@ import YesNoButton from "./YesNoButton";
 interface CardProps {
   title: string;
   text: string;
-  type: "YesNo" | "Timer" | "Counter";
-  streakValue?: string; // For streak type to show the number of days (e.g., '7 Days')
-  onSubmitTimer?: (duration: { hours: number; minutes: number }) => void; // Timer submit handler
-  onCancelTimer?: () => void; // Timer cancel handler
-  onOpenModal: (title: string, text: any) => void; // Modal open handler
-  // onDelete?: () => void;
-  className?: string; // Allowing className to be passed for width and other styling from container
+  type: "YESNO" | "TIMER" | "COUNTER";
+  streakValue?: number;
+  totalCount?: number;
+  totalDuration?: number;
+  goalId: number;
+  onCancelTimer?: () => void;
+  onYesNoUpdate: (goalId: number, isYes: boolean) => Promise<void>;
+  onCounterUpdate: (goalId: number, countChange: number) => Promise<void>;
+  onTimerUpdate: (
+    goalId: number,
+    duration: { hours: number; minutes: number }
+  ) => Promise<void>;
+  onOpenModal: () => void;
+  className?: string;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -24,21 +33,39 @@ const Card: React.FC<CardProps> = ({
   text,
   type,
   streakValue,
-  onSubmitTimer,
+  totalCount,
+  totalDuration,
+  goalId,
   onCancelTimer,
+  onYesNoUpdate,
+  onCounterUpdate,
+  onTimerUpdate,
   className,
   onOpenModal,
-  // onDelete,
 }) => {
-  // Determine the text based on the type of card
+  // Determine the prompt based on the type of card
   const getPrompt = (cardType: string) => {
     switch (cardType) {
-      case "Counter":
+      case "COUNTER":
         return "Count progress for your goal today.";
-      case "Timer":
+      case "TIMER":
         return "How long did you spend on your goal today?";
-      case "YesNo":
+      case "YESNO":
         return "Did you complete your goal today?";
+      default:
+        return "";
+    }
+  };
+
+  const getTrackingValue = () => {
+    switch (type) {
+      case "YESNO":
+        return `${streakValue || 0} Days`;
+      case "TIMER":
+        const timeInHours = (totalDuration || 0) / 60;
+        return timeInHours;
+      case "COUNTER":
+        return `${totalCount || 0} Times`;
       default:
         return "";
     }
@@ -46,7 +73,6 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <div className={`relative bg-dark-gray p-4 rounded-lg ${className}`}>
-      {/* Details Button in the top right */}
       <div className="absolute top-1 right-2">
         <DetailsButton
           onOpenModal={() => {
@@ -56,47 +82,51 @@ const Card: React.FC<CardProps> = ({
         />
       </div>
 
-      {/* Card Title */}
       <h2 className="text-white mt-4 text-card-title font-bold mb-0">
         {title}
       </h2>
 
-      {/* Card Text */}
       <p className="text-secondary-text text-card-subtitle mb-4">{text}</p>
 
-      {/* Conditional text based on the card type */}
       <p className="text-white text-card-text mb-4">{getPrompt(type)}</p>
 
-      {/* Type-specific content */}
-      {type === "YesNo" && (
+      {type === "YESNO" && (
         <>
-          {/* Yes/No Button for streak */}
-          <YesNoButton />
-          {/* Streak Display centered below the YesNoButton */}
+          <YesNoButton
+            onYesClick={() => onYesNoUpdate(goalId, true)}
+            onNoClick={() => onYesNoUpdate(goalId, false)}
+          />
           <div className="flex justify-center mt-2">
-            <StreakDisplay type="YesNo" bottomText="5 Times" />
+            <StreakDisplay
+              type="YesNo"
+              bottomText={`${streakValue ?? 0} Days`}
+            />
           </div>
         </>
       )}
 
-      {type === "Timer" && (
+      {type === "TIMER" && (
         <>
-          {/* Timer Component */}
-          <Timer onSubmit={onSubmitTimer!} />
+          <Timer onSubmit={(duration) => onTimerUpdate(goalId, duration)} />
           <div className="flex justify-center mt-2">
-            <StreakDisplay type="Timer" bottomText={streakValue || "0 Days"} />
+            <StreakDisplay
+              type="Timer"
+              timeSpentInHours={(totalDuration || 0) / 60} // Ensure time in hours
+            />
           </div>
         </>
       )}
-
-      {type === "Counter" && (
+      {type === "COUNTER" && (
         <>
-          {/* Counter Component */}
-          <Counter />
+          <Counter
+            count={totalCount ?? 0}
+            onIncrement={() => onCounterUpdate(goalId, 1)}
+            onDecrement={() => onCounterUpdate(goalId, -1)}
+          />
           <div className="flex justify-center mt-2">
             <StreakDisplay
               type="Counter"
-              bottomText={streakValue || "0 Days"}
+              bottomText={`${totalCount ?? 0} Times`}
             />
           </div>
         </>

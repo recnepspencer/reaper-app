@@ -1,3 +1,4 @@
+'use client';
 import React from "react";
 import TextInput from "./input/TextInput";
 import classNames from "classnames";
