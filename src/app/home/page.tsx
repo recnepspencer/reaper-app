@@ -1,26 +1,29 @@
 // src/app/home/page.tsx
 
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Navbar from '../components/Navbar';
-import Card from '../components/card/Card';
-import AddGoalModal from '../components/AddGoalModal';
-import { useUser } from '@clerk/nextjs';
-import { GoalType } from '@/lib/interfaces/goals.interface';
-import { useGoals } from '@/lib/hooks/goals/useGoals';
-import { useCreateGoal } from '@/lib/hooks/goals/useCreateGoal';
-import { useUpdateGoal } from '@/lib/hooks/goals/useUpdateGoal';
+import React, { useState } from "react";
+import Navbar from "../components/Navbar";
+import Card from "../components/card/Card";
+import AddGoalModal from "../components/AddGoalModal";
+import { useUser } from "@clerk/nextjs";
+import { GoalType } from "@/lib/interfaces/goals.interface";
+import { useGoals } from "@/lib/hooks/goals/useGoals";
+import { useCreateGoal } from "@/lib/hooks/goals/useCreateGoal";
+import { useUpdateGoal } from "@/lib/hooks/goals/useUpdateGoal";
 
 export default function Home() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const { user } = useUser();
 
   const { goals, setGoals, loading, error, reloadGoals } = useGoals(user?.id);
-  
+
   const { createGoal } = useCreateGoal(user?.id, setGoals);
 
-  const { updateStreak, updateCounter, updateTimer } = useUpdateGoal(user?.id, reloadGoals);
+  const { updateStreak, updateCounter, updateTimer } = useUpdateGoal(
+    user?.id,
+    reloadGoals
+  );
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -35,9 +38,19 @@ export default function Home() {
               title={goal.title}
               text={goal.description}
               type={goal.type}
-              streakValue={goal.users[0]?.streak}
-              totalCount={goal.users[0]?.totalCount}
-              totalDuration={goal.users[0]?.totalDuration}
+              streakValue={
+                goal.users && goal.users.length > 0 ? goal.users[0].streak : 0
+              }
+              totalCount={
+                goal.users && goal.users.length > 0
+                  ? goal.users[0].totalCount
+                  : 0
+              }
+              totalDuration={
+                goal.users && goal.users.length > 0
+                  ? goal.users[0].totalDuration
+                  : 0
+              }
               goalId={goal.id}
               onYesNoUpdate={updateStreak}
               onCounterUpdate={updateCounter}
