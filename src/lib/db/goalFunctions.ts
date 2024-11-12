@@ -115,26 +115,36 @@ export async function deleteGoal(id: number) {
 // Retrieve all goals
 export async function getAllGoals(userId: string) {
   try {
-    const allGoals = await prisma.goal.findMany({
+    const userGoals = await prisma.userGoal.findMany({
+      where: {
+        userId: userId,
+      },
       include: {
-        users: {
-          where: {
-            userId: userId,
-          },
+        Goal: {
           select: {
-            goalId: true, // Necessary for joining purposes
-            totalDuration: true,
-            totalCount: true,
-            streak: true,
+            id: true,
+            title: true,
+            description: true,
+            type: true,
+            createdAt: true,
+            updatedAt: true,
           },
         },
       },
     });
 
-    console.log('getting all users goals:', JSON.stringify(allGoals, null, 2));
-    return allGoals;
+    // Format the response if needed to only return goal data along with user-specific fields
+    const formattedGoals = userGoals.map((userGoal) => ({
+      ...userGoal.Goal,
+      totalDuration: userGoal.totalDuration,
+      totalCount: userGoal.totalCount,
+      streak: userGoal.streak,
+    }));
+
+    console.log('getting all user-specific goals:', JSON.stringify(formattedGoals, null, 2));
+    return formattedGoals;
   } catch (error) {
-    console.error('Error fetching all goals with user data:', error);
-    throw new Error('Failed to fetch goals with user data');
+    console.error('Error fetching user-specific goals:', error);
+    throw new Error('Failed to fetch user-specific goals');
   }
 }
