@@ -38,9 +38,9 @@ const Navbar: React.FC = () => {
         </Link>
 
         {/* Create button to open the modal */}
-        <button onClick={onCreate}>
+        <Link href='/create'>
           <Image src="/images/plus.svg" alt="Plus Icon" width={48} height={48} />
-        </button>
+        </Link>
       </div>
     </nav>
   );
