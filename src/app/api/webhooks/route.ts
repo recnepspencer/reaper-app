@@ -54,6 +54,8 @@ export async function POST(req: Request) {
       case 'user.updated':
         await handleUserUpdated(evt.data);
         break;
+      case 'session.created':
+        await handleUserUpdated(evt.data);
       // Add more cases as needed
       default:
         console.warn(`Unhandled event type: ${eventType}`);
@@ -67,47 +69,70 @@ export async function POST(req: Request) {
 }
 
 // Handler for 'user.created' event
+import prisma from "@/lib/db/prisma"; // Ensure this is correctly pointing to your Prisma client
+
 async function handleUserCreated(data: any) {
   const { id: userId, email_addresses, first_name, last_name } = data;
 
   if (!userId || !email_addresses || email_addresses.length === 0) {
-    console.warn('Incomplete user data received');
-    throw new Error('Incomplete user data');
+    console.warn("Incomplete user data received");
+    throw new Error("Incomplete user data");
   }
 
   const email = email_addresses[0].email_address;
 
   try {
-    // Create user using utility function
-    await createUser(userId, email, first_name, last_name);
+    // Directly interact with Prisma to create the user
+    await prisma.user.upsert({
+      where: { id: userId },
+      update: {}, // No need to update, since it's a creation process
+      create: {
+        id: userId,
+        email: email,
+        firstName: first_name || null,
+        lastName: last_name || null,
+      },
+    });
+
     console.log(`User [ID: ${userId}] created successfully`);
   } catch (error) {
-    console.error('Error creating user:', error);
-    throw new Error('Failed to create user');
+    console.error("Error creating user with Prisma:", error);
+    throw new Error("Failed to create user");
   }
 }
+
 
 // Handler for 'user.updated' event
 async function handleUserUpdated(data: any) {
   const { id: userId, email_addresses, first_name, last_name } = data;
 
   if (!userId || !email_addresses || email_addresses.length === 0) {
-    console.warn('Incomplete user data received for update');
-    throw new Error('Incomplete user data for update');
+    console.warn("Incomplete user data received for update");
+    throw new Error("Incomplete user data for update");
   }
 
   const email = email_addresses[0].email_address;
 
   try {
-    // Update user using utility function
-    await updateUser(userId, {
-      email,
-      firstName: first_name || undefined,
-      lastName: last_name || undefined,
+    // Use upsert to handle both update and creation
+    await prisma.user.upsert({
+      where: { id: userId },
+      update: {
+        email: email,
+        firstName: first_name || undefined,
+        lastName: last_name || undefined,
+      },
+      create: {
+        id: userId,
+        email: email,
+        firstName: first_name || null,
+        lastName: last_name || null,
+      },
     });
-    console.log(`User [ID: ${userId}] updated successfully`);
+
+    console.log(`User [ID: ${userId}] upserted successfully`);
   } catch (error) {
-    console.error('Error updating user:', error);
-    throw new Error('Failed to update user');
+    console.error("Error upserting user with Prisma:", error);
+    throw new Error("Failed to upsert user");
   }
 }
