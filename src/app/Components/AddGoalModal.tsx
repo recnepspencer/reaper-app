@@ -37,7 +37,7 @@ const AddGoalModal: React.FC<AddGoalModalProps> = ({ isOpen, onClose, onCreateGo
   }
 
   return (
-    <Modal title="Create New Goal" variant="secondary" onClose={onClose}>
+    <Modal title="Create New Goal" onClose={onClose}>
       <div className="space-y-4">
         <TextInput label="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
         <TextInput label="Description" value={description} onChange={(e) => setDescription(e.target.value)} />

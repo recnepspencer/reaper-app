@@ -70,3 +70,37 @@ export const updateTimer = async (userId: string, goalId: number, duration: { ho
     throw error;
   }
 };
+
+export async function deleteGoal(goalId: number): Promise<void> {
+  const response = await fetch(`/api/goals/${goalId}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || "Failed to delete goal");
+  }
+}
+
+export async function updateGoal(
+  userId: string,
+  goalId: number,
+  updatedData: { title: string; description: string; type: string }
+): Promise<void> {
+  const response = await fetch(`/api/goals/${goalId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userId,
+      action: "update", // Assuming 'update' is the action you handle
+      ...updatedData,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || "Failed to update goal");
+  }
+}

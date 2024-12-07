@@ -11,6 +11,8 @@ import { GoalType } from "@/lib/interfaces/goals.interface";
 import { useGoals } from "@/lib/hooks/goals/useGoals";
 import { useCreateGoal } from "@/lib/hooks/goals/useCreateGoal";
 import { useUpdateGoal } from "@/lib/hooks/goals/useUpdateGoal";
+import { useEditGoal } from "@/lib/hooks/goals/useEditGoal";
+import { useDeleteGoal } from "@/lib/hooks/goals/useDeleteGoal";
 
 export default function Home() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -25,8 +27,21 @@ export default function Home() {
     reloadGoals
   );
 
+  const {
+    editGoal,
+    loading: editLoading,
+    error: editError,
+  } = useEditGoal(user?.id, reloadGoals);
+
+  const {
+    deleteGoal,
+    loading: deleteLoading,
+    error: deleteError,
+  } = useDeleteGoal(user?.id, reloadGoals);
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
+
 
   return (
     <>
@@ -38,24 +53,16 @@ export default function Home() {
               title={goal.title}
               text={goal.description}
               type={goal.type}
-              streakValue={
-                goal.users && goal.users.length > 0 ? goal.users[0].streak : 0
-              }
-              totalCount={
-                goal.users && goal.users.length > 0
-                  ? goal.users[0].totalCount
-                  : 0
-              }
-              totalDuration={
-                goal.users && goal.users.length > 0
-                  ? goal.users[0].totalDuration
-                  : 0
-              }
+              streakValue={goal.streak}
+              totalCount={goal.totalCount}
+              totalDuration={goal.totalDuration}
               goalId={goal.id}
               onYesNoUpdate={updateStreak}
               onCounterUpdate={updateCounter}
               onTimerUpdate={updateTimer}
               onOpenModal={() => {}}
+              onEditGoal={editGoal}
+              onDeleteGoal={deleteGoal}
             />
           ))}
         </div>

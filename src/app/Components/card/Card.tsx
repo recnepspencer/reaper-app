@@ -1,13 +1,15 @@
-// components/card/Card.tsx
+
 
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import DetailsButton from "./DetailsButton";
 import StreakDisplay from "./StreakDisplay";
 import Timer from "./Timer";
 import Counter from "./Counter";
 import YesNoButton from "./YesNoButton";
+import EditModal from "../EditModal";
+import DeleteAlert from "../DeleteAlert";
 
 interface CardProps {
   title: string;
@@ -26,6 +28,11 @@ interface CardProps {
   ) => Promise<void>;
   onOpenModal: () => void;
   className?: string;
+  onEditGoal: (
+    goalId: number,
+    updatedData: { title: string; description: string; type: string }
+  ) => void;
+  onDeleteGoal: (goalId: number) => void;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -42,8 +49,12 @@ const Card: React.FC<CardProps> = ({
   onTimerUpdate,
   className,
   onOpenModal,
+  onEditGoal,
+  onDeleteGoal,
 }) => {
-  // Determine the prompt based on the type of card
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
+
   const getPrompt = (cardType: string) => {
     switch (cardType) {
       case "COUNTER":
@@ -75,10 +86,8 @@ const Card: React.FC<CardProps> = ({
     <div className={`relative bg-dark-gray p-4 rounded-lg ${className}`}>
       <div className="absolute top-1 right-2">
         <DetailsButton
-          onOpenModal={() => {
-            console.log("Details Button Clicked in Card");
-            onOpenModal();
-          }}
+          onOpenModal={() => setIsEditModalOpen(true)}
+          onDelete={() => setIsDeleteAlertOpen(true)}
         />
       </div>
 
@@ -111,7 +120,7 @@ const Card: React.FC<CardProps> = ({
           <div className="flex justify-center mt-2">
             <StreakDisplay
               type="Timer"
-              timeSpentInHours={(totalDuration || 0) / 60} // Ensure time in hours
+              timeSpentInHours={(totalDuration || 0) / 60} 
             />
           </div>
         </>
@@ -131,6 +140,21 @@ const Card: React.FC<CardProps> = ({
           </div>
         </>
       )}
+
+      <EditModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        onEditGoal={onEditGoal}
+        goal={{ id: goalId, title, description: text, type }}
+      />
+      <DeleteAlert
+        isOpen={isDeleteAlertOpen}
+        onClose={() => setIsDeleteAlertOpen(false)}
+        onDelete={async () => {
+          await onDeleteGoal(goalId); 
+          console.log("Goal deleted successfully"); 
+        }}
+      />
     </div>
   );
 };

@@ -26,5 +26,8 @@ export interface Goal {
   title: string;
   description: string;
   type: GoalType;
+  streak?: number; 
+  totalCount?: number; 
+  totalDuration?: number;
   users: UserGoal[];
 }

@@ -2,7 +2,9 @@
  
 import { GoalData, UpdateGoalData, UserGoal } from '../interfaces/goals.interface';
 import prisma from './prisma';
- 
+
+import { GoalType } from '../interfaces/goals.interface';
+
 // Create a new goal
 export async function createGoal(userId: string, data: GoalData) {
   try {
@@ -148,5 +150,20 @@ export async function getAllGoals(userId: string) {
     throw new Error('Failed to fetch user-specific goals');
   }
 }
- 
- 
+
+
+export async function updateGoal(
+  goalId: number,
+  updatedData: { title: string; description: string; type: GoalType }
+) {
+  try {
+    return await prisma.goal.update({
+      where: { id: goalId },
+      data: updatedData,
+    });
+  } catch (error) {
+    console.error("Error updating goal:", error);
+    throw new Error("Failed to update goal");
+  }
+}
+

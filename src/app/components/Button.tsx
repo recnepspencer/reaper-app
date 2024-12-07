@@ -36,5 +36,3 @@ const Button: React.FC<ButtonProps> = ({
 };
 
 export default Button;
-
-//im build a react component. i have a details button that is the ... looking kind. when i click it, i want there to be a dropdown that says edit and one that says delete. 
