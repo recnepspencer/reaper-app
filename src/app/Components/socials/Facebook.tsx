@@ -5,7 +5,7 @@ import Script from "next/script";
 useEffect(() => {
   window.fbAsyncInit = function() {
     window.FB.init({
-      appId            : 'your-app-id',
+      appId            : 'Reaper-App',
       xfbml            : true,
       version          : 'v21.0'
     });
