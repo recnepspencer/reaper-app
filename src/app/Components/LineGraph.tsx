@@ -2,8 +2,8 @@ import React from "react";
 import Plot from "react-plotly.js";
 
 interface LineGraphProps {
-    data: any;
-    layout: any;
+    data: (Object | any)[];
+    layout: (Object | any);
 }
 
 class LineGraph extends React.Component {
