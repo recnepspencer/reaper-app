@@ -18,7 +18,7 @@ interface CardProps {
   streakValue?: number;
   totalCount?: number;
   totalDuration?: number;
-  goalId: number;
+  goalId: number; // rwar
   onCancelTimer?: () => void;
   onYesNoUpdate: (goalId: number, isYes: boolean) => Promise<void>;
   onCounterUpdate: (goalId: number, countChange: number) => Promise<void>;
