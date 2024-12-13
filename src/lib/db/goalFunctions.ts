@@ -1,7 +1,8 @@
 // lib/db/goalFunctions.ts
-
+ 
 import { GoalData, UpdateGoalData, UserGoal } from '../interfaces/goals.interface';
 import prisma from './prisma';
+
 import { GoalType } from '../interfaces/goals.interface';
 
 // Create a new goal
@@ -12,7 +13,7 @@ export async function createGoal(userId: string, data: GoalData) {
         ...data,
         users: {
           create: {
-            userId: userId,
+            userId: userId as any,
             streak: 0,
             totalCount: 0,
             totalDuration: 0,
@@ -29,7 +30,7 @@ export async function createGoal(userId: string, data: GoalData) {
     throw new Error('Failed to create goal');
   }
 }
-
+ 
 // Retrieve a goal by ID
 export async function getGoalById(id: number) {
   try {
@@ -41,7 +42,7 @@ export async function getGoalById(id: number) {
     throw new Error('Failed to fetch goal');
   }
 }
-
+ 
 // Update a goal
 export async function updateUserGoal(userId: string, goalId: number, action: string, data: any) {
   switch (action) {
@@ -55,52 +56,52 @@ export async function updateUserGoal(userId: string, goalId: number, action: str
       throw new Error('Invalid action');
   }
 }
-
+ 
 async function handleYesNoUpdate(userId: string, goalId: number, isYes: boolean) {
   const userGoal = await prisma.userGoal.findUnique({
     where: { userId_goalId: { userId, goalId } },
   });
-
+ 
   if (!userGoal) throw new Error('UserGoal not found');
-
+ 
   const newStreak = isYes ? (userGoal.streak ?? 0) + 1 : 0;
-
+ 
   return await prisma.userGoal.update({
     where: { userId_goalId: { userId, goalId } },
     data: { streak: newStreak },
   });
 }
-
+ 
 async function handleCounterUpdate(userId: string, goalId: number, countChange: number) {
   const userGoal = await prisma.userGoal.findUnique({
     where: { userId_goalId: { userId, goalId } },
   });
-
+ 
   if (!userGoal) throw new Error('UserGoal not found');
-
+ 
   const newTotalCount = (userGoal.totalCount ?? 0) + countChange;
-
+ 
   return await prisma.userGoal.update({
     where: { userId_goalId: { userId, goalId } },
     data: { totalCount: newTotalCount },
   });
 }
-
+ 
 async function handleTimerUpdate(userId: string, goalId: number, duration: number) {
   const userGoal = await prisma.userGoal.findUnique({
     where: { userId_goalId: { userId, goalId } },
   });
-
+ 
   if (!userGoal) throw new Error('UserGoal not found');
-
+ 
   const newTotalDuration = (userGoal.totalDuration ?? 0) + duration;
-
+ 
   return await prisma.userGoal.update({
     where: { userId_goalId: { userId, goalId } },
     data: { totalDuration: newTotalDuration },
   });
 }
-
+ 
 // Delete a goal
 export async function deleteGoal(id: number) {
   try {
@@ -112,7 +113,7 @@ export async function deleteGoal(id: number) {
     throw new Error('Failed to delete goal');
   }
 }
-
+ 
 // Retrieve all goals
 export async function getAllGoals(userId: string) {
   try {
@@ -133,7 +134,7 @@ export async function getAllGoals(userId: string) {
         },
       },
     });
-
+ 
     // Format the response if needed to only return goal data along with user-specific fields
     const formattedGoals = userGoals.map((userGoal) => ({
       ...userGoal.Goal,
@@ -141,7 +142,7 @@ export async function getAllGoals(userId: string) {
       totalCount: userGoal.totalCount,
       streak: userGoal.streak,
     }));
-
+ 
     console.log('getting all user-specific goals:', JSON.stringify(formattedGoals, null, 2));
     return formattedGoals;
   } catch (error) {
@@ -149,6 +150,7 @@ export async function getAllGoals(userId: string) {
     throw new Error('Failed to fetch user-specific goals');
   }
 }
+
 
 export async function updateGoal(
   goalId: number,
@@ -164,3 +166,4 @@ export async function updateGoal(
     throw new Error("Failed to update goal");
   }
 }
+
