@@ -1,17 +1,16 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
-declare global {
-  namespace NodeJS {
-    interface Global {
-      prisma: PrismaClient | undefined;
-    }
+// Use a module-level variable for development environments
+let prisma: PrismaClient;
+
+if (process.env.NODE_ENV === "production") {
+  prisma = new PrismaClient({ log: ["query"] });
+} else {
+  const globalForPrisma = global as typeof global & { prisma?: PrismaClient };
+  if (!globalForPrisma.prisma) {
+    globalForPrisma.prisma = new PrismaClient({ log: ["query"] });
   }
+  prisma = globalForPrisma.prisma;
 }
-
-const prisma = (global as any).prisma || new PrismaClient({
-  log: ['query'],
-});
-
-if (process.env.NODE_ENV !== 'production') global.prisma = prisma;
 
 export default prisma;
