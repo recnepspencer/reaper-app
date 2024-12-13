@@ -1,5 +1,6 @@
+// api/users/index.ts
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getAllUsers } from '../../../lib/db/userFunctions';
+import { getAllUsers, createUser } from '../../../lib/db/userFunctions';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {

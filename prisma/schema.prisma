@@ -7,33 +7,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum GoalType {
+  TIMER
+  COUNTER
+  YESNO
+}
+
 model User {
-  id        Int        @id @default(autoincrement())
-  email     String     @unique
-  name      String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  goals     UserGoal[] // This sets up the relation to the UserGoal join table
+  id            String   @id @default(cuid()) // Clerk's user ID (String)
+  email         String   @unique
+  firstName     String?
+  lastName      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  goals     UserGoal[]
 }
 
 model Goal {
   id          Int        @id @default(autoincrement())
   title       String
   description String
+  type        GoalType
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-  users       UserGoal[] // This sets up the relation to the UserGoal join table
+  users       UserGoal[]
 }
 
 model UserGoal {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  goalId    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Goal      Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, goalId]) // Ensure that each User can only be related to each Goal once
+  id            Int      @id @default(autoincrement())
+  userId        String   
+  goalId        Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  totalDuration Int?
+  totalCount    Int?     
+  streak        Int?   
+  User          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Goal          Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  @@unique([userId, goalId], name: "userId_goalId")
 }

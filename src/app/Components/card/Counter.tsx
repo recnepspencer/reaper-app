@@ -1,23 +1,22 @@
+// components/card/Counter.tsx
+
 'use client';
-import React, { useState } from 'react';
+
+import React from 'react';
 import Image from 'next/image';
 
-const Counter: React.FC = () => {
-  const [count, setCount] = useState(0); // Set initial count value
+interface CounterProps {
+  count: number;
+  onIncrement: () => void;
+  onDecrement: () => void;
+}
 
-  const increment = () => {
-    setCount(count + 1);
-  };
-
-  const decrement = () => {
-    setCount(count > 0 ? count - 1 : 0); // Ensure the count doesn't go below 0
-  };
-
+const Counter: React.FC<CounterProps> = ({ count, onIncrement, onDecrement }) => {
   return (
     <div className="flex items-center justify-between bg-light-gray p-2 rounded-lg w-36">
       {/* Decrement Button */}
       <button
-        onClick={decrement}
+        onClick={onDecrement}
         className="p-2 rounded-full hover:bg-gray-300 focus:outline-none"
       >
         <Image
@@ -33,7 +32,7 @@ const Counter: React.FC = () => {
 
       {/* Increment Button */}
       <button
-        onClick={increment}
+        onClick={onIncrement}
         className="p-2 rounded-full hover:bg-gray-300 focus:outline-none"
       >
         <Image
