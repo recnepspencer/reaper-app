@@ -7,7 +7,7 @@ export interface FormProps {
     onSubmit: () => void;
     variant?:"primary" | "secondary" | "danger" | undefined;  
 }
-const Form: React.FC = (children:any, onSubmit, variant:FormProps["variant"] = "primary") => {
+const Form: React.FC<FormProps> = ({ children, onSubmit, variant = "primary" }) => {
     return (
         <div>
             {children}

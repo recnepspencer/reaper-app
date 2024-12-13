@@ -13,7 +13,7 @@ export async function createGoal(userId: string, data: GoalData) {
         ...data,
         users: {
           create: {
-            userId: userId as any,
+            userId: userId as string,
             streak: 0,
             totalCount: 0,
             totalDuration: 0,
@@ -44,14 +44,28 @@ export async function getGoalById(id: number) {
 }
  
 // Update a goal
-export async function updateUserGoal(userId: string, goalId: number, action: string, data: any) {
+interface YesNoData {
+  isYes: boolean;
+}
+
+interface CounterData {
+  countChange: number;
+}
+
+interface TimerData {
+  duration: number;
+}
+
+type UpdateUserGoalData = YesNoData | CounterData | TimerData;
+
+export async function updateUserGoal(userId: string, goalId: number, action: string, data: UpdateUserGoalData) {
   switch (action) {
     case 'yesno':
-      return await handleYesNoUpdate(userId, goalId, data.isYes);
+      return await handleYesNoUpdate(userId, goalId, (data as YesNoData).isYes);
     case 'counter':
-      return await handleCounterUpdate(userId, goalId, data.countChange);
+      return await handleCounterUpdate(userId, goalId, (data as CounterData).countChange);
     case 'timer':
-      return await handleTimerUpdate(userId, goalId, data.duration);
+      return await handleTimerUpdate(userId, goalId, (data as TimerData).duration);
     default:
       throw new Error('Invalid action');
   }

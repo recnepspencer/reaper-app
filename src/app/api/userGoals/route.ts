@@ -14,7 +14,7 @@ export async function PUT(request: Request) {
     const updatedUserGoal = await updateUserGoal(userId, parseInt(goalId, 10), action, data);
 
     return NextResponse.json(updatedUserGoal, { status: 200 });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error updating UserGoal:', error);
     return NextResponse.json({ error: 'Failed to update UserGoal' }, { status: 500 });
   }

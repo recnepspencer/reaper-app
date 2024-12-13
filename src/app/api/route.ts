@@ -7,6 +7,6 @@ export async function GET() {
     const users: User[] = await prisma.user.findMany(); // Fetch all users
     return NextResponse.json(users);
   } catch (error) {
-    throw new Error("Error fetching users", error);
+    throw new Error(`Error fetching users: ${error}`);
   }
 }
