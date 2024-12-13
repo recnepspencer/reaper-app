@@ -3,11 +3,6 @@
 import { useState } from "react";
 import * as GoalService from "@/lib/services/GoalService";
 
-interface UseEditGoalProps {
-  userId: string | undefined;
-  reloadGoals: () => void;
-}
-
 export function useEditGoal(
   userId: string | undefined,
   reloadGoals: () => void

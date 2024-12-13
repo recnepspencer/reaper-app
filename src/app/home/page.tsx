@@ -7,7 +7,6 @@ import Navbar from "../components/Navbar";
 import Card from "../components/card/Card";
 import AddGoalModal from "../components/AddGoalModal";
 import { useUser } from "@clerk/nextjs";
-import { GoalType } from "@/lib/interfaces/goals.interface";
 import { useGoals } from "@/lib/hooks/goals/useGoals";
 import { useCreateGoal } from "@/lib/hooks/goals/useCreateGoal";
 import { useUpdateGoal } from "@/lib/hooks/goals/useUpdateGoal";
@@ -29,14 +28,10 @@ export default function Home() {
 
   const {
     editGoal,
-    loading: editLoading,
-    error: editError,
   } = useEditGoal(user?.id, reloadGoals);
 
   const {
     deleteGoal,
-    loading: deleteLoading,
-    error: deleteError,
   } = useDeleteGoal(user?.id, reloadGoals);
 
   if (loading) return <p>Loading...</p>;

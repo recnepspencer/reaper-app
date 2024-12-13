@@ -1,6 +1,6 @@
 // lib/db/goalFunctions.ts
  
-import { GoalData, UpdateGoalData, UserGoal } from '../interfaces/goals.interface';
+import { GoalData,  } from '../interfaces/goals.interface';
 import prisma from './prisma';
 
 import { GoalType } from '../interfaces/goals.interface';

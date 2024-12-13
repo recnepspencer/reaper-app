@@ -3,11 +3,6 @@
 import { useState } from "react";
 import * as GoalService from "@/lib/services/GoalService";
 
-interface UseDeleteGoalProps {
-  userId: string | undefined;
-  reloadGoals: () => void;
-}
-
 export function useDeleteGoal(
   userId: string | undefined,
   reloadGoals: () => void

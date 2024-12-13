@@ -1,7 +1,7 @@
 // lib/db/userFunctions.ts
 
 import prisma from './prisma';
-import { GoalData } from '../interfaces/goals.interface';
+
 
 // Create a new user
 export async function createUser(id: string, email: string, firstName?: string, lastName?: string) {

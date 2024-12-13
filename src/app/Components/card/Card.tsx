@@ -43,12 +43,10 @@ const Card: React.FC<CardProps> = ({
   totalCount,
   totalDuration,
   goalId,
-  onCancelTimer,
   onYesNoUpdate,
   onCounterUpdate,
   onTimerUpdate,
   className,
-  onOpenModal,
   onEditGoal,
   onDeleteGoal,
 }) => {
@@ -63,20 +61,6 @@ const Card: React.FC<CardProps> = ({
         return "How long did you spend on your goal today?";
       case "YESNO":
         return "Did you complete your goal today?";
-      default:
-        return "";
-    }
-  };
-
-  const getTrackingValue = () => {
-    switch (type) {
-      case "YESNO":
-        return `${streakValue || 0} Days`;
-      case "TIMER":
-        const timeInHours = (totalDuration || 0) / 60;
-        return timeInHours;
-      case "COUNTER":
-        return `${totalCount || 0} Times`;
       default:
         return "";
     }

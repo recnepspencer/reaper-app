@@ -2,13 +2,9 @@
 
 import { NextResponse } from "next/server";
 import {
-  createGoal,
-  getAllGoals,
-  deleteGoal,
   getGoalById,
   updateGoal,
 } from "@/lib/db/goalFunctions";
-import { GoalType } from "@/lib/interfaces/goals.interface";
 
 
 

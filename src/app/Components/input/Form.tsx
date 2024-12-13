@@ -1,6 +1,5 @@
 'use client';
 import React from "react";
-import TextInput from "./TextInput";
 import Button from "../Button";
 
 export interface FormProps {
