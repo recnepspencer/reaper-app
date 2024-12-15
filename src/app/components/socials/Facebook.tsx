@@ -1,6 +1,4 @@
-// src/app/components/socials/Facebook.tsx
- 
-import React, { useState } from "react";
+
 import Button from "../Button";
 import { FaFacebook } from "react-icons/fa";
  

@@ -1,7 +1,7 @@
 // src/app/api/goals/route.ts
 
 import { NextResponse } from "next/server";
-import { createGoal, getAllGoals, deleteGoal, getGoalById } from "@/lib/db/goalFunctions";
+import { createGoal, getAllGoals } from "@/lib/db/goalFunctions";
 import { GoalType } from "@/lib/interfaces/goals.interface";
 
 // Handle GET request to fetch all goals
