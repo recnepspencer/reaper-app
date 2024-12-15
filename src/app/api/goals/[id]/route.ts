@@ -6,6 +6,8 @@ import {
   updateGoal,
 } from "@/lib/db/goalFunctions";
 
+import { deleteGoal } from "@/lib/db/goalFunctions";
+
 
 
 export async function PUT(
@@ -44,6 +46,37 @@ export async function PUT(
     console.error("Error updating goal:", error);
     return NextResponse.json(
       { error: "Failed to update goal" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  const goalId = parseInt(params.id, 10);
+ 
+  if (isNaN(goalId)) {
+    return NextResponse.json({ error: "Invalid Goal ID" }, { status: 400 });
+  }
+ 
+  try {
+    const goal = await getGoalById(goalId);
+ 
+    if (!goal) {
+      return NextResponse.json({ error: "Goal not found" }, { status: 404 });
+    }
+ 
+    await deleteGoal(goalId);
+    return NextResponse.json(
+      { message: "Goal deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting goal:", error);
+    return NextResponse.json(
+      { error: "Failed to delete goal" },
       { status: 500 }
     );
   }
