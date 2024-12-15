@@ -29,11 +29,7 @@ const Navbar: React.FC<NavbarProps> = ({ onCreate }) => {
               <Image src="/images/plus.svg" alt="Plus Icon" width={48} height={48} />
             </button>
 
-            <SignOutButton afterSignOutUrl="/profile">
-              <button className="px-4 py-2 ml-4 text-white bg-red-500 rounded hover:bg-red-600">
-                Sign Out
-              </button>
-            </SignOutButton>
+            
           </>
         )}
       </div>

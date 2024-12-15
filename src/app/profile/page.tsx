@@ -1,14 +1,14 @@
 'use client';
 
 import React from 'react';
-import { useUser, SignOutButton } from '@clerk/nextjs';
-import { useRouter } from 'next/navigation';  
+import { useUser, SignOutButton, SignInButton } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation'; 
 
 const ProfilePage = () => {
   const { user } = useUser();
-  const router = useRouter();  
+  const router = useRouter(); 
 
- 
+  
   const handleSignOut = () => {
     router.push('/profile'); 
   };
@@ -26,11 +26,12 @@ const ProfilePage = () => {
                 We need you to log in to access this page. Please sign in to continue.
               </p>
               <div className="mt-6">
-                <SignOutButton onClick={handleSignOut}>
+                {/* Use SignInButton from Clerk for signing in */}
+                <SignInButton>
                   <button className="px-6 py-2 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 focus:outline-none">
                     Login
                   </button>
-                </SignOutButton>
+                </SignInButton>
               </div>
             </div>
           </div>
@@ -52,7 +53,8 @@ const ProfilePage = () => {
         <h1 className="mt-4 text-xl font-semibold text-center">{user.fullName || "No Name"}</h1>
         <p className="mt-2 text-sm text-center text-gray-600">{user.emailAddress}</p>
         <div className="mt-6 text-center">
-          <SignOutButton onClick={handleSignOut}>
+          {/* SignOutButton is already provided by Clerk */}
+          <SignOutButton>
             <button className="px-4 py-2 font-semibold text-white bg-red-500 rounded hover:bg-red-600">
               Sign Out
             </button>
