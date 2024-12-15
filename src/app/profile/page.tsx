@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 import { useUser, SignInButton, SignOutButton } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import Button from '../components/Button';
-import Image from 'next/image';
 
 const ProfilePage = () => {
   const { user } = useUser();
@@ -47,12 +46,10 @@ const ProfilePage = () => {
     <div className="flex flex-col items-center justify-center h-screen bg-black">
       <div className="w-full max-w-sm p-6 bg-card-background rounded-lg shadow-md">
         {user.imageUrl && (
-          <Image
+          <img
             src={user.imageUrl}
             alt="Profile Picture"
             className="w-24 h-24 rounded-full mx-auto"
-            width={96}
-            height={96}
           />
         )}
         <h1 className="mt-4 text-xl font-semibold text-center">{user.fullName || "No Name"}</h1>
