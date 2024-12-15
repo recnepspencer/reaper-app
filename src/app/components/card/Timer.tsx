@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Button from "../Button"; // Assuming Button component is in the same directory
 
+// Interface for TimerProps
 interface TimerProps {
   onSubmit: (duration: { hours: number; minutes: number }) => void;
 }
