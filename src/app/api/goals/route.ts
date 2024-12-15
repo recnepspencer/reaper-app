@@ -1,7 +1,7 @@
 // src/app/api/goals/route.ts
 
 import { NextResponse } from "next/server";
-import { createGoal, getAllGoals } from "@/lib/db/goalFunctions";
+import { createGoal, getAllGoals, deleteGoal, getGoalById } from "@/lib/db/goalFunctions";
 import { GoalType } from "@/lib/interfaces/goals.interface";
 
 // Handle GET request to fetch all goals
@@ -12,7 +12,7 @@ export async function GET(request: Request) {
 
     if (!userId || Array.isArray(userId)) {
       return NextResponse.json(
-        { error: "Valid User ID is required" },
+        { error: "Valid User ID is required bro" },
         { status: 400 }
       );
     }
@@ -53,6 +53,37 @@ export async function POST(request: Request) {
     console.error("POST /api/goals error:", error);
     return NextResponse.json(
       { error: "Failed to create goal" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  const goalId = parseInt(params.id, 10);
+
+  if (isNaN(goalId)) {
+    return NextResponse.json({ error: "Invalid Goal ID" }, { status: 400 });
+  }
+
+  try {
+    const goal = await getGoalById(goalId);
+
+    if (!goal) {
+      return NextResponse.json({ error: "Goal not found" }, { status: 404 });
+    }
+
+    await deleteGoal(goalId);
+    return NextResponse.json(
+      { message: "Goal deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting goal:", error);
+    return NextResponse.json(
+      { error: "Failed to delete goal" },
       { status: 500 }
     );
   }

@@ -1,6 +1,6 @@
 // api/users/[id].ts
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getUserById, updateUser, deleteUser, getAllUsers, createUser } from '../../../lib/db/userFunctions';
+import { getUserById, updateUser, deleteUser, getAllUsers } from '../../../lib/db/userFunctions';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
@@ -11,10 +11,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.json(user);
   } else if (req.method === 'PUT') {
     const data = req.body;
-    const updatedUser = await updateUser(userId as any, data);
-    return res.json(updatedUser);
+    const updatedUser = await updateUser(userId as string, data);
+     return res.json(updatedUser);
   } else if (req.method === 'DELETE') {
-    await deleteUser(userId as any);
+    await deleteUser(userId as string);
     return res.status(204).end();
   }
 }

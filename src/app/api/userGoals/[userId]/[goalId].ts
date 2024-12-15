@@ -32,7 +32,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'Valid User ID and Goal ID are required' }, { status: 400 });
     }
 
-    await deleteUserGoalAssignment(userId, goalId as any);
+    await deleteUserGoalAssignment(userId, Number(goalId));
     return NextResponse.json(null, { status: 204 });
   } catch (error) {
     console.error('DELETE /api/userGoals error:', error);

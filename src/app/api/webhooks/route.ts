@@ -3,7 +3,7 @@
 import { Webhook } from 'svix';
 import { headers } from 'next/headers';
 import { WebhookEvent } from '@clerk/nextjs/server';
-import { createUser, updateUser } from '@/lib/db/userFunctions'; // Import your utility functions
+
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
@@ -55,7 +55,7 @@ export async function POST(req: Request) {
         await handleUserUpdated(evt.data);
         break;
       case 'session.created':
-        await handleUserUpdated(evt.data);
+        await handleSessionCreated(evt.data);
       // Add more cases as needed
       default:
         console.warn(`Unhandled event type: ${eventType}`);
@@ -71,7 +71,14 @@ export async function POST(req: Request) {
 // Handler for 'user.created' event
 import prisma from "@/lib/db/prisma"; // Ensure this is correctly pointing to your Prisma client
 
-async function handleUserCreated(data: any) {
+interface UserData {
+  id: string;
+  email_addresses: { email_address: string }[];
+  first_name?: string | null;
+  last_name?: string | null;
+}
+
+async function handleUserCreated(data: UserData) {
   const { id: userId, email_addresses, first_name, last_name } = data;
 
   if (!userId || !email_addresses || email_addresses.length === 0) {
@@ -102,8 +109,39 @@ async function handleUserCreated(data: any) {
 }
 
 
+// Handler for 'session.created' event
+interface SessionJSON {
+  id: string;
+  user_id: string;
+  // Add other properties as needed
+}
+
+async function handleSessionCreated(data: SessionJSON) {
+  const { id: sessionId, user_id: userId } = data;
+
+  if (!sessionId || !userId) {
+    console.warn("Incomplete session data received");
+    throw new Error("Incomplete session data");
+  }
+
+  try {
+    // Handle session creation logic here
+    console.log(`Session [ID: ${sessionId}] created for User [ID: ${userId}]`);
+  } catch (error) {
+    console.error("Error handling session creation:", error);
+    throw new Error("Failed to handle session creation");
+  }
+}
+
 // Handler for 'user.updated' event
-async function handleUserUpdated(data: any) {
+interface UserUpdatedData {
+  id: string;
+  email_addresses: { email_address: string }[];
+  first_name?: string | null;
+  last_name?: string | null;
+}
+
+async function handleUserUpdated(data: UserUpdatedData) {
   const { id: userId, email_addresses, first_name, last_name } = data;
 
   if (!userId || !email_addresses || email_addresses.length === 0) {

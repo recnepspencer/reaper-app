@@ -1,8 +1,10 @@
 // lib/db/goalFunctions.ts
  
-import { GoalData, UpdateGoalData, UserGoal } from '../interfaces/goals.interface';
+import { GoalData,  } from '../interfaces/goals.interface';
 import prisma from './prisma';
- 
+
+import { GoalType } from '../interfaces/goals.interface';
+
 // Create a new goal
 export async function createGoal(userId: string, data: GoalData) {
   try {
@@ -11,7 +13,7 @@ export async function createGoal(userId: string, data: GoalData) {
         ...data,
         users: {
           create: {
-            userId: userId as any,
+            userId: userId as string,
             streak: 0,
             totalCount: 0,
             totalDuration: 0,
@@ -42,14 +44,28 @@ export async function getGoalById(id: number) {
 }
  
 // Update a goal
-export async function updateUserGoal(userId: string, goalId: number, action: string, data: any) {
+interface YesNoData {
+  isYes: boolean;
+}
+
+interface CounterData {
+  countChange: number;
+}
+
+interface TimerData {
+  duration: number;
+}
+
+type UpdateUserGoalData = YesNoData | CounterData | TimerData;
+
+export async function updateUserGoal(userId: string, goalId: number, action: string, data: UpdateUserGoalData) {
   switch (action) {
     case 'yesno':
-      return await handleYesNoUpdate(userId, goalId, data.isYes);
+      return await handleYesNoUpdate(userId, goalId, (data as YesNoData).isYes);
     case 'counter':
-      return await handleCounterUpdate(userId, goalId, data.countChange);
+      return await handleCounterUpdate(userId, goalId, (data as CounterData).countChange);
     case 'timer':
-      return await handleTimerUpdate(userId, goalId, data.duration);
+      return await handleTimerUpdate(userId, goalId, (data as TimerData).duration);
     default:
       throw new Error('Invalid action');
   }
@@ -148,5 +164,20 @@ export async function getAllGoals(userId: string) {
     throw new Error('Failed to fetch user-specific goals');
   }
 }
- 
- 
+
+
+export async function updateGoal(
+  goalId: number,
+  updatedData: { title: string; description: string; type: GoalType }
+) {
+  try {
+    return await prisma.goal.update({
+      where: { id: goalId },
+      data: updatedData,
+    });
+  } catch (error) {
+    console.error("Error updating goal:", error);
+    throw new Error("Failed to update goal");
+  }
+}
+

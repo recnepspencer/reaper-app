@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     setIsCreateModalOpen(true);
   };
 
-  const handleCreateGoal = async (goalData: { title: string; description: string; type: string }) => {
+  const handleCreateGoal = async () => {
 
     setIsCreateModalOpen(false); 
   };

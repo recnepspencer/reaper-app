@@ -1,13 +1,18 @@
-'use client';
-import React, { useState } from 'react';
-import Button from '../Button'; 
-import Image from 'next/image';
+"use client";
+
+import React, { useState } from "react";
+import Button from "../Button";
+import Image from "next/image";
 
 interface DetailsButtonProps {
   onOpenModal: () => void;
+  onDelete: () => void; // This prop should trigger the delete functionality
 }
 
-const DetailsButton: React.FC<DetailsButtonProps> = ({ onOpenModal }) => { 
+const DetailsButton: React.FC<DetailsButtonProps> = ({
+  onOpenModal,
+  onDelete,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -17,7 +22,10 @@ const DetailsButton: React.FC<DetailsButtonProps> = ({ onOpenModal }) => {
   return (
     <div className="relative inline-block text-left">
       {/* Details Icon Button */}
-      <button onClick={toggleDropdown} className="p-2 rounded-lg hover:bg-gray-200 focus:outline-none">
+      <button
+        onClick={toggleDropdown}
+        className="p-2 rounded-lg hover:bg-gray-200 focus:outline-none"
+      >
         <Image
           src="/images/details-button.svg"
           alt="Details"
@@ -28,11 +36,14 @@ const DetailsButton: React.FC<DetailsButtonProps> = ({ onOpenModal }) => {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-32 bg-none shadow-lg rounded-md z-10">
+        <div className="absolute right-0 mt-2 w-32 shadow-lg rounded-md z-10">
           <div className="py-1">
             {/* Edit Button */}
             <Button
-              onClick={onOpenModal} 
+              onClick={() => {
+                onOpenModal();
+                setIsOpen(false); // Close the dropdown
+              }}
               variant="secondary"
               className="w-full text-left px-4 py-2"
             >
@@ -40,7 +51,10 @@ const DetailsButton: React.FC<DetailsButtonProps> = ({ onOpenModal }) => {
             </Button>
             {/* Delete Button */}
             <Button
-              onClick={() => console.log('Delete')}
+              onClick={() => {
+                onDelete(); // Call the onDelete prop
+                setIsOpen(false); // Close the dropdown
+              }}
               variant="danger"
               className="w-full text-left px-4 py-2"
             >
