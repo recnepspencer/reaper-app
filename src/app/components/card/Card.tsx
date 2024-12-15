@@ -10,6 +10,7 @@ import Counter from "./Counter";
 import YesNoButton from "./YesNoButton";
 import EditModal from "../EditModal";
 import DeleteAlert from "../DeleteAlert";
+import Facebook from "../socials/Facebook";
 
 interface CardProps {
   title: string;
@@ -139,6 +140,7 @@ const Card: React.FC<CardProps> = ({
           console.log("Goal deleted successfully"); 
         }}
       />
+    <Facebook currentGoal={title} setCurrentGoal={() => {}} />
     </div>
   );
 };
