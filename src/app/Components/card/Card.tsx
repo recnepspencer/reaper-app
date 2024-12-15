@@ -8,6 +8,7 @@ import StreakDisplay from "./StreakDisplay";
 import Timer from "./Timer";
 import Counter from "./Counter";
 import YesNoButton from "./YesNoButton";
+import Facebook from "../socials/Facebook";
 
 interface CardProps {
   title: string;
@@ -131,6 +132,7 @@ const Card: React.FC<CardProps> = ({
           </div>
         </>
       )}
+    <Facebook currentGoal={title} setCurrentGoal={() => {}} />
     </div>
   );
 };
