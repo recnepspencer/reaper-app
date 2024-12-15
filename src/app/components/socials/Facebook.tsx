@@ -15,11 +15,13 @@ const Facebook: React.FC<FacebookProps> = () => {
     // Initialize the Facebook SDK
     window.fbAsyncInit = function () {
       window.FB.init({
-        appId: "Reaper-App", // Replace with your actual Facebook App ID
+        appId: "896808095976607", // Replace with your actual Facebook App ID
         cookie: true,
         xfbml: true,
         version: "v17.0", // Use the latest Facebook Graph API version
       });
+
+      FB.AppEvents.logPageView(); 
 
       // Optional: Check login status when the component mounts
       window.FB.getLoginStatus(function (response) {
